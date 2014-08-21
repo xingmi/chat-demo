@@ -57,7 +57,7 @@ io.on('connection',function(socket){
 
     //用户离开
     socket.on('disconnect',function(){
-        global.count -= 1;
+        global.count > 0 ? global.count -= 1 : 0;
         var userIndex = global.userArray.indexOf(global_connection.username);
         global.userArray.splice(userIndex,1);
         disconnect = {
