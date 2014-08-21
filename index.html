@@ -59,6 +59,7 @@
     });
     socket.on('sendMessage', function(msg){
         $('#messages').append($('<li>').text(msg.user + "说:" + msg.message));
+        $("#messages").scrollTop($("#messages")[0].scrollHeight);
     });
 
     //用户离开
@@ -69,7 +70,7 @@
                 $("#allUser div").eq(i).remove()
             }
         })
-    })  
+    });
     </script>
   </body>
 </html>
