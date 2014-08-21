@@ -42,7 +42,7 @@
     })
     name = prompt("输入姓名后即可进入聊天室")
     //用户登陆
-    if(name != "" && name != new String(null) ){
+    if(name != "" && name != "null" ){
         socket.emit('userConnect',name);
         socket.on('userConnect',function(user){
 
@@ -61,6 +61,15 @@
         $('#messages').append($('<li>').text(msg.user + "说:" + msg.message));
     });
 
+    //用户离开
+    socket.on('disconnect',function(userLeave){
+        $("#allUser h2 em").text(userLeave.count);
+        $("#allUser div").each(function(i){
+            if($("#allUser div").eq(i).text() == userLeave.username ){
+                $("#allUser div").eq(i).remove()
+            }
+        })
+    })  
     </script>
   </body>
 </html>

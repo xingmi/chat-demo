@@ -44,6 +44,13 @@ io.on('connection',function(socket){
     //用户离开
     socket.on('disconnect',function(){
         global.count -= 1;
+        var userIndex = global.userArray.indexOf(global_connection.username);
+        global.userArray.splice(userIndex,1);
+        disconnect = {
+            username : global_connection.username,
+            count    : global.count
+        }
+        io.emit('disconnect',disconnect)
     });
 })
 http.listen(3000,function(){
