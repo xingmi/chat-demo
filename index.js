@@ -13,7 +13,7 @@ app.get('/',function(req,res){
     res.sendfile('index.html');
 });
 io.on('connection',function(socket){
-    var global_connection;
+    var global_connection = {};
 
     //用户接入
     socket.on('userVistor',function(){
@@ -46,7 +46,7 @@ io.on('connection',function(socket){
 
         // @功能
         global.userArray.forEach(function(i){
-            var user = "/" + i + "/"
+            var user = "/@" + i + "/"
             if ( !!(message.match(eval(user))) ){
                 socket.to(global.userSocketId[i]).emit('atSomeOne', 'you have got a message');
                 return false;
