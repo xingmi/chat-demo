@@ -40,7 +40,7 @@
         });
         
     })
-    name = prompt("请输入姓名")
+    name = prompt("输入姓名后即可进入聊天室")
     //用户登陆
     if(name != "" && name != new String(null) ){
         socket.emit('userConnect',name);
