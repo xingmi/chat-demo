@@ -62,12 +62,17 @@
         $("#messages").scrollTop($("#messages")[0].scrollHeight);
     });
 
+    // @某人
+    socket.on('atSomeOne',function(msg){
+        alert(msg);
+    });
+
     //用户离开
     socket.on('disconnect',function(userLeave){
         $("#allUser h2 em").text(userLeave.count);
         $("#allUser div").each(function(i){
             if($("#allUser div").eq(i).text() == userLeave.username ){
-                $("#allUser div").eq(i).remove()
+                $("#allUser div").eq(i).remove();
             }
         })
     });

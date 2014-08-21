@@ -4,7 +4,10 @@ var io = require('socket.io')(http);
 
 var global = {
     count : 0,
-    userArray : []
+    userArray : [],
+    userSocketId : {
+
+    }
 }
 app.get('/',function(req,res){
     res.sendfile('index.html');
@@ -14,11 +17,12 @@ io.on('connection',function(socket){
 
     //用户接入
     socket.on('userVistor',function(){
-        io.emit('userVistor',global)
+        io.emit('userVistor',global);
     });
 
     //用户登陆
     socket.on('userConnect',function(username){
+        global.userSocketId[username] = socket.id
         global.count += 1;
         if( global.userArray.indexOf(username) >= 0 ){
             username = username + Math.floor((Math.random() * 1000) );
@@ -27,7 +31,7 @@ io.on('connection',function(socket){
         global_connection = {
             username : username,
             count : global.count
-        };    
+        };
         console.log(global_connection.username +' has connected');
         io.emit('userConnect',global_connection)
     });
@@ -39,6 +43,16 @@ io.on('connection',function(socket){
             message  : message
         };
         io.emit('sendMessage', userChat);
+
+        // @功能
+        global.userArray.forEach(function(i){
+            var user = "/" + i + "/"
+            if ( !!(message.match(eval(user))) ){
+                socket.to(global.userSocketId[i]).emit('atSomeOne', 'you have got a message');
+                return false;
+            }
+        })
+
     })
 
     //用户离开
