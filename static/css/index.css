@@ -1,0 +1,16 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+ul{
+    list-style: none
+}
+body { font: 13px Helvetica, Arial; position: relative; }
+form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+form input { border: 0; padding: 10px; width: 70%; margin-right: .5%; }
+form button { width: 29%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+#messages {
+list-style-type: none; margin: 0; padding: 0; position: fixed;
+bottom: 42px; left: 0;height: 182px;overflow: scroll; width:100%;
+}
+#messages li { padding: 5px 10px; }
+#messages li:nth-child(odd) { background: #eee; }
+.room li{margin-bottom: 10px;}
+.room li .box{height: 100px;background-color: #555;border-radius:20px;}

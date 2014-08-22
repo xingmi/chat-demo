@@ -1,81 +1,75 @@
 <!doctype html>
 <html>
   <head>
-    <title>聊天室demo</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; position: relative; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 70%; margin-right: .5%; }
-      form button { width: 29%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { 
-        list-style-type: none; margin: 0; padding: 0; position: fixed;
-        bottom: 42px; left: 0;height: 182px;overflow: scroll; width:100%;
-      }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-      #allUser{ position: absolute; right: 0; top:0; width: auto;}
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <title>在线游戏demo</title>
+
+    <!-- Bootstrap -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
   </head>
   <body>
-    <div id="allUser">
-        <h2>在线人员(<em>0</em>人)</h2>
+   <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-9">
+          <ul class="row room">
+            <li class="col-sm-3">
+              <div class="box">
+                
+              </div>
+            </li>
+            <li class="col-sm-3">
+              <div class="box">
+                
+              </div>
+            </li><li class="col-sm-3">
+              <div class="box">
+                
+              </div>
+            </li><li class="col-sm-3">
+              <div class="box">
+                
+              </div>
+            </li><li class="col-sm-3">
+              <div class="box">
+                
+              </div>
+            </li><li class="col-sm-3">
+              <div class="box">
+                
+              </div>
+            </li>
+            
+
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h4>外部在线人员(<em>0</em>人)</h4>
+
+          <ul id="messages">
+      
+          </ul>
+        </div>
+
+      </div>
+
     </div>
-    <ul id="messages"></ul>
+    
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-    var socket = io();
-    var name;
-    //用户接入
-    socket.emit('userVistor')
-    socket.on('userVistor',function(initData){
-        $("#allUser h2 em").text(initData.count);
-        $("#allUser div").remove();
-        initData.userArray.forEach(function(i){
-            $("#allUser").append($('<div>').text(i))
-        });
-        
-    })
-    name = prompt("输入姓名后即可进入聊天室")
-    //用户登陆
-    if(name != "" && name != "null" ){
-        socket.emit('userConnect',name);
-        socket.on('userConnect',function(user){
-
-            $("#allUser").append($('<div>').text(user.username))
-            $("#allUser h2 em").text(user.count)
-        });
-    }
-
-    //用户发送消息
-    $('form').submit(function(){
-        socket.emit('sendMessage', $('#m').val());
-        $('#m').val('');
-        return false;
-    });
-    socket.on('sendMessage', function(msg){
-        $('#messages').append($('<li>').text(msg.user + "说:" + msg.message));
-        $("#messages").scrollTop($("#messages")[0].scrollHeight);
-    });
-
-    // @某人
-    socket.on('atSomeOne',function(msg){
-        alert(msg);
-    });
-
-    //用户离开
-    socket.on('disconnect',function(userLeave){
-        $("#allUser h2 em").text(userLeave.count);
-        $("#allUser div").each(function(i){
-            if($("#allUser div").eq(i).text() == userLeave.username ){
-                $("#allUser div").eq(i).remove();
-            }
-        })
-    });
-    </script>
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/js/room.js"></script>
+    <script src="/js/socket_index.js"></script>
   </body>
 </html>

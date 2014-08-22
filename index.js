@@ -1,17 +1,24 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-
 var global = {
     count : 0,
     userArray : [],
     userSocketId : {
 
     }
-}
+};
+
+app.use(express.static(__dirname + '/static'));
+app.use(express.static(__dirname + '/node_modules'));
+
+
 app.get('/',function(req,res){
     res.sendfile('index.html');
 });
+
+// websocket 
 io.on('connection',function(socket){
     var global_connection = {};
 
@@ -66,7 +73,12 @@ io.on('connection',function(socket){
         }
         io.emit('disconnect',disconnect)
     });
-})
+
+    //用户进入房间
+    
+    
+});
+
 http.listen(3000,function(){
     console.log('listen on port 3000')
 });
